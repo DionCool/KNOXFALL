@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Zomboid Hardcore RP - Server Rules</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --bg-card: #1a1a1a;
+            --red-primary: #af1d1d;
+            --red-hover: #e82c2c;
+            --gray-light: #333333;
+            --gray-border: #2a2a2a;
+            --text-main: #f5f6fa;
+            --text-muted: #a4b0be;
+            --accent-red: #ff4d4d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- Mobile Header --- */
+        .mobile-header {
+            display: none;
+            background-color: var(--bg-card);
+            border-bottom: 2px solid var(--gray-border);
+            padding: 15px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 150;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mobile-menu-btn {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-header-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--accent-red);
+            text-transform: uppercase;
+        }
+
+        /* --- Sidebar Navigation --- */
+        .sidebar {
+            width: 300px;
+            background-color: var(--bg-card);
+            border-right: 2px solid var(--gray-border);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 25px;
+            background: linear-gradient(180deg, rgba(175, 29, 29, 0.3), transparent);
+            border-bottom: 1px solid var(--gray-border);
+            text-align: center;
+        }
+
+        .sidebar-logo {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 10px rgba(175, 29, 29, 0.5));
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.4rem;
+            color: var(--accent-red);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 15px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: var(--text-main);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .sidebar-menu a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            color: var(--accent-red);
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: var(--red-primary);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(175, 29, 29, 0.4);
+        }
+
+        .sidebar-actions {
+            padding: 20px 15px;
+            border-top: 1px solid var(--gray-border);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            color: #fff;
+        }
+
+        .btn-discord { background-color: #5865F2; }
+        .btn-discord:hover { background-color: #4752C4; }
+
+        .btn-whitelist {
+            background-color: var(--red-primary);
+            border: 1px solid var(--accent-red);
+        }
+        .btn-whitelist:hover { background-color: var(--red-hover); }
+
+        /* --- Main Content Area --- */
+        .main-content {
+            margin-left: 300px;
+            flex-grow: 1;
+            padding: 40px;
+            max-width: 1200px;
+            width: calc(100% - 300px);
+        }
+
+        /* --- Top Utility Bar --- */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            background-color: var(--bg-card);
+            padding: 15px 30px;
+            border-radius: 12px;
+            border: 1px solid var(--gray-border);
+            gap: 20px;
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--gray-border);
+            border-radius: 30px;
+            color: #fff;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent-red);
+            box-shadow: 0 0 10px rgba(255, 77, 77, 0.2);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .top-bar-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .top-link {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background-color: var(--gray-light);
+            transition: all 0.3s ease;
+        }
+        .top-link:hover {
+            background-color: #444;
+            color: var(--accent-red);
+        }
+
+        /* --- Announcement Banner --- */
+        .banner {
+            background: linear-gradient(135deg, var(--red-primary), #3a0a0a);
+            border-left: 5px solid var(--accent-red);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .banner h2 {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        /* --- Rule Sections --- */
+        .section-title {
+            font-size: 1.8rem;
+            margin: 40px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--red-primary);
+            color: #fff;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 15px;
+            color: var(--accent-red);
+        }
+
+        .rule-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--gray-border);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .rule-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            border-color: var(--red-primary);
+        }
+
+        .rule-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 15px;
+        }
+
+        .rule-title {
+            font-size: 1.25rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .rule-badge {
+            background: var(--red-primary);
+            border: 1px solid var(--accent-red);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .badge-char { background: #6f1daf; border: 1px solid #9c4ddb; }
+        .badge-system { background: #2b5181; border: 1px solid #4a7bb0; }
+        .badge-discord { background: #5865F2; border: 1px solid #7289da; }
+
+        .rule-description {
+            color: var(--text-main);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        /* --- Example Section --- */
+        .example-box {
+            background-color: rgba(0, 0, 0, 0.4);
+            border-left: 4px solid var(--accent-red);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 20px;
+        }
+
+        .example-box-char { border-left-color: #9c4ddb; }
+        .example-box-system { border-left-color: #4a7bb0; }
+
+        .example-title {
+            font-size: 0.9rem;
+            color: var(--accent-red);
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+        }
+
+        .example-title-char { color: #d4a5ff; }
+        .example-title-system { color: #8bc6ec; }
+
+        .example-item {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 8px;
+            color: #dcdde1;
+        }
+        .example-item:last-child { margin-bottom: 0; }
+
+        .example-item strong { color: #ff4d4d; }
+        .example-item strong.good { color: #2ecc71; }
+        .example-item code {
+            background-color: #222;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #ffbe76;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+
+        /* --- Overlay Background Screen --- */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 90;
+        }
+
+        /* --- Responsive Screen Configurations --- */
+        @media (max-width: 992px) {
+            body { flex-direction: column; }
+            .mobile-header { display: flex; }
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                top: 60px; bottom: 0;
+                width: 280px;
+                box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+            }
+            .sidebar.open { transform: translateX(0); }
+            .main-content {
+                margin-left: 0; padding: 20px;
+                margin-top: 60px; width: 100%;
+            }
+            .top-bar { flex-direction: column; align-items: stretch; padding: 20px; }
+            .top-bar-links { justify-content: center; margin-top: 10px; }
+            .rule-header { flex-direction: column; align-items: flex-start; gap: 5px; }
+            .section-title { font-size: 1.4rem; }
+            .rule-title { font-size: 1.15rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="mobile-header">
+        <button class="mobile-menu-btn" id="menuToggleBtn"><i class="fa-solid fa-bars"></i></button>
+        <div class="mobile-header-title">Knox Fall Rules</div>
+        <div style="width: 24px;"></div>
+    </header>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <nav class="sidebar" id="serverSidebar">
+        <div class="sidebar-header">
+            <h1>KNOX FALL</h1>
+            <p>Hardcore Roleplay Rules Wiki</p>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#core-rp" class="active"><i class="fa-solid fa-brain"></i> มหาบทบาท (Core RP)</a></li>
+            <li><a href="#character-rules"><i class="fa-solid fa-user-gear"></i> ข้อบังคับตัวละคร (Character)</a></li>
+            <li><a href="#sensitive-rp"><i class="fa-solid fa-triangle-exclamation"></i> เนื้อหาอ่อนไหว (Sensitive)</a></li>
+            <li><a href="#combat-rules"><i class="fa-solid fa-gun"></i> การปะทะ & ปล้น (Combat)</a></li>
+            <li><a href="#system-commands"><i class="fa-solid fa-terminal"></i> ระบบคำสั่งสากล (/me /do /roll)</a></li>
+            <li><a href="#discord-rules"><i class="fa-brands fa-discord"></i> กฎระเบียบ Discord</a></li>
+        </ul>
+        <div class="sidebar-actions">
+            <a href="https://discord.gg/nfq2UCcuVT" target="_blank" class="btn btn-discord"><i class="fa-brands fa-discord"></i> เข้าสู่ Discord</a>
+            <a href="https://forms.gle/BFqx3DjA2yZAuc858" target="_blank" class="btn btn-whitelist"><i class="fa-solid fa-clipboard-list"></i> สมัคร Whitelist</a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        
+        <div class="top-bar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="ruleSearch" placeholder="พิมพ์ค้นหากฎ เช่น 'ปล้น', 'd10', 'OOC', 'ชื่อตัวละคร'...">
+            </div>
+        </div>
+
+        <div class="banner">
+            <h2><i class="fa-solid fa-skull-crossbones"></i> ประกาศจาก Admin</h2>
+            <p>เซิร์ฟเวอร์นี้เป็นแนว Hardcore Roleplay 100% ตัวละครทุกตัวมีชีวิตเดียวและเรื่องราวมีคุณค่า ขอให้ผู้รอดชีวิตทุกคนศึกษากฎเหล็กให้ครบถ้วนก่อนเหยียบย่างเข้าสู่สมรภูมิเคนทักกี</p>
+        </div>
+
+        <section id="core-rp">
+            <h2 class="section-title"><i class="fa-solid fa-brain"></i> หมวดที่ 1: กฎทองแห่งการสวมบทบาท (Core RP Rules)</h2>
+            
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">1. การสวมบทบาทขั้นเด็ดขาด (Strict In-Character - IC)</div>
+                    <span class="rule-badge">กฎเหล็ก</span>
+                </div>
+                <div class="rule-description">
+                    ผู้เล่นต้องพูด คิด และกระทำทุกอย่างผ่านตัวละครตลอดเวลาที่อยู่ในเกม ระบบแชทปกติและแชทเสียงในเกม (Local Chat/VOIP) ถือเป็นเสียงของตัวละคร 100% ห้ามหลุดพูดเรื่องนอกเกม หรือใช้คำศัพท์โลกจริงเด็ดขาด
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ถูกกฎ]</strong> พูดออกไมค์ว่า: "ฉันได้ยินคลื่นวิทยุซ่าๆ แถวนี้ ท่าทางเมืองนี้จะไม่มีไฟฟ้าเหลือแล้วล่ะ"</div>
+                    <div class="example-item"><strong>[ผิดกฎ]</strong> พูดออกไมค์ว่า: "เห้ยมึง ตัวละครกูบั๊กว่ะ ขยับไม่ได้เลย" หรือ "กดปุ่มไหนชักปืนนะ ลืมคีย์ลัด"</div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">2. การแยกช่องทางนอกบทบาท (Out-of-Character - OOC)</div>
+                    <span class="rule-badge">ระบบสื่อสาร</span>
+                </div>
+                <div class="rule-description">
+                    หากระบบเกมเกิดปัญหา บั๊ก หรือจำเป็นต้องสื่อสารข้อมูลที่เกี่ยวกับตัวผู้เล่นจริง ให้ใช้ช่องทาง [OOC] เท่านั้น (พิมพ์คำสั่ง /b หรือ /ooc) และห้ามพิมพ์ OOC แทรกกลางคันในขณะที่ตัวละครกำลังดำเนินฉากเจรจาหรือปะทะอยู่
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> เมื่อตัวละครติดร่องตึก ให้พิมพ์ว่า: `/b [แอดมินครับ ตัวละครผมติดบั๊ก รบกวนช่วยดึงทีครับ]`</div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> ในขณะที่กำลังโดนกลุ่มอื่นล้อมจับ ห้ามสแปมพิมพ์ OOC เพื่อประท้วง ให้ปล่อยให้ฉากดำเนินไปจนจบก่อน แล้วจึงไปเปิดตั๋วใน Discord ย้อนหลัง</div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">3. ค่าความรักตัวกลัวตาย (Value of Life - VoL)</div>
+                    <span class="rule-badge">พฤติกรรม</span>
+                </div>
+                <div class="rule-description">
+                    ตัวละครของคุณมีชีวิตเดียว มีจิตใจ มีความเจ็บปวด และรักตัวกลัวตายอย่างสมจริง การตัดสินใจทุกอย่างต้องคำนึงถึงความปลอดภัยของชีวิตเป็นหลัก ห้ามกระทำการใดๆ ที่ส่อเจตนาจงใจเอาตัวละครไปเสี่ยงตายอย่างไร้เหตุผล
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> เมื่อตัวละครบาดเจ็บหรือป่วย ต้องดิ้นรนหาทางรักษา ห้ามปล่อยตัวเปล่าวิ่งเข้าดงซอมบี้เพื่อให้ตัวเองตายแล้วมาเกิดใหม่เพื่อล้างสถานะ</div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> หากคุณไม่มีอาวุธ แต่เจอศัตรูถือปืนเล็งมาที่คุณในระยะประชิด คุณต้องยอมจำนน ไม่วิ่งเข้าใส่ปากกระบอกปืน</div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">4. ระบบความเกรงกลัวต่อสถานการณ์ (Fear Factor)</div>
+                    <span class="rule-badge">พฤติกรรม</span>
+                </div>
+                <div class="rule-description">
+                    เมื่อตัวละครตกเป็นรองในสถานการณ์ที่หนีไม่ได้ เช่น ถูกอาวุธจ่อหัว หรือถูกล้อมด้วยจำนวนคนที่มากกว่า คุณต้องแสดงความเกรงกลัวและปฏิบัติตามคำสั่งข่มขู่ต่อรองอย่างสมจริงตามสถานการณ์
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> ถูกกองกำลังควบคุมกฎหมายคุมเชิงเอาปืนจ่อหน้าอก คุณต้องกดใช้แอนิเมชันชูมือขึ้น คุกเข่าลง และยินยอมให้ตรวจค้นแต่โดยดี</div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> ห้ามอาศัยจังหวะที่อีกฝ่ายกำลังพิมพ์ข้อความยาวๆ ชักอาวุธออกมายิงสวนในระยะประชิด</div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">5. การกระทำเกินขอบเขตความเป็นมนุษย์ (Powergaming - PG)</div>
+                    <span class="rule-badge">ข้อห้าม</span>
+                </div>
+                <div class="rule-description">
+                    ห้ามกระทำการใดๆ ที่ระบบกลไกเกมเปิดช่องให้ทำได้ แต่ใน "โลกความเป็นจริง" มนุษย์ปกติไม่สามารถทำได้ หรือการใช้คำสั่งตัดสินผลลัพธ์ของฉากเอาแต่ได้ฝ่ายเดียว โดยไม่เปิดโอกาสใหีกฝ่ายได้โต้ตอบหรือขัดขืน
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> ตัวละครโดนยิงขาหัก แต่ผู้เล่นกดคีย์ลัดเดินสปีดความเร็วปกติหนีศัตรู โดยไม่ยอมโรลเพลย์แสดงอาการบาดเจ็บหรือเดินกะเผลก</div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> การพิมพ์คำสั่งผูกขาดผลลัพธ์ เช่น พิมพ์ว่า `/me ชักมีดพกออกมาแทงเข้าที่คอหอยของอีกฝ่ายจนขาดใจตายทันที` (ระเบียบที่ถูกคือต้องพิมพ์เป็นความพยายามเพื่อให้เกิดช่องว่างในการโต้ตอบ)</div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">6. การนำข้อมูลนอกเกมมาใช้ในเกม (Metagaming - MG)</div>
+                    <span class="rule-badge">ข้อห้ามร้ายแรง</span>
+                </div>
+                <div class="rule-description">
+                    ห้ามนำข้อมูลใดๆ ที่คุณ (ผู้เล่นตัวจริง) รับรู้มาจากนอกบทบาท (OOC) เช่น การดูสตรีม, การอ่านแชท Discord, หรือการพูดคุยกันนอกเกม มาให้ตัวละครในเกมรับรู้และใช้ประโยชน์เด็ดขาด ตัวละครจะรู้ข้อมูลได้ก็ต่อเมื่อเกิดเหตุการณ์ขึ้นในเกมจริงเท่านั้น
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> แอบดูดิสคอร์ดกลุ่มอื่นแล้วเห็นรูปถ่ายพิกัดแปลงเกษตร จึงขับรถตรงดิ่งไปฟาร์มพิกัดนั้นทันที ทั้งๆ ที่ในบทบาทไม่เคยรู้เรื่องมาก่อน</div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> ขับรถผ่านหน้าบ้านคนอื่น เห็นชื่อตัวละคร (Name Tag) ลอยอยู่ทะลุกำแพง จึงตะโกนเรียกชื่อเจ้าของบ้านเสียงดัง ทั้งๆ ที่ยังไม่เคยรู้จักกันในบทบาท</div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">7. มารยาททั่วไปของผู้เล่น (Common Courtesy - CC)</div>
+                    <span class="rule-badge">มารยาท</span>
+                </div>
+                <div class="rule-description">
+                    ผู้เล่นทุกคนต้องให้เกียรติและมีมารยาทต่อกันในฐานะ "ผู้เล่นนอกบทบาท (OOC)" ห้ามนำความแค้น ความไม่พอใจในเกม (IC) ออกมาด่าทอ กลั่นแกล้ง หรือคุกคามกันในชีวิตจริงเด็ดขาด ความขัดแย้งต้องจบลงแค่ในเนื้อเรื่องของเกมเท่านั้น
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> โดนกลุ่มอื่นปล้นเสบียงและรถยนต์ไปจนหมดตัวในเกม ตัวละครนั่งเสียใจ แต่พอจบซีนผู้เล่นทักดิสคอร์ดไปชมฝ่ายตรงข้ามว่า "ฉากเมื่อกี้กดดันมาก สนุกมากครับ"</div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> ห้ามทักแชทส่วนตัว (DM) ไปด่าทอ บูลลี่ หรือด่าทอบบบุคคลอื่นนอกเกมเนื่องจากไม่พอใจที่ตนเองเสียผลประโยชน์ในเกม</div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">8. การกดออกจากเกมหลบหนีสถานการณ์ (Quit Game - QG)</div>
+                    <span class="rule-badge">ข้อห้าม</span>
+                </div>
+                <div class="rule-description">
+                    ห้ามกดปิดเกม ตัดการเชื่อมต่ออินเทอร์เน็ต (Alt+F4) หรือกด Quit Game ออกจากเซิฟเวอร์ในขณะที่ตัวละครกำลังอยู่ในสถานการณ์ปะทะ (Combat) เผชิญหน้ากับผู้เล่นอื่น หรือกำลังโดนซอมบี้รุมล้อมเด็ดขาด ต้องอยู่ร่วมเหตุการณ์จนจบฉาก
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> ในขณะที่รถพังและมีกลุ่มโจรล้อมรถอยู่ ห้ามกดตัดการเชื่อมต่อเพื่อหายตัวหนีเด็ดขาด</div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> หากมีความจำเป็นต้องรีบไปทำธุระในชีวิตจริง ให้พิมพ์แจ้งฝ่ายตรงข้ามผ่านช่อง /b (OOC) เพื่อขออนุญาตฝากตัวละครไว้ หรือนัดแนะกลับมาดำเนินฉากต่อวันหลังอย่างเป็นทางการ</div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">11. การทำลายบทบาทและการเล่นแข็ง (Breaking Roleplay - BR)</div>
+                    <span class="rule-badge">ข้อห้าม</span>
+                </div>
+                <div class="rule-description">
+                    ห้ามกระทำการใดๆ ที่เป็นการขัดจังหวะ หรือทำลายบรรยากาศการโรลเพลย์ของผู้รอดชีวิตคนอื่น เช่น การพูดเรื่องตลกนอกเกมขณะดำเนินฉากตึงเครียด การยืนนิ่งไม่ยอมโต้ตอบอินแอนิเมชัน หรือการไม่ยอมรับกลไกความเจ็บปวดทางร่างกาย
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> ในขณะที่เพื่อนร่วมทีมกำลังทำแผลให้ตัวละครของคุณอย่างตั้งใจ ห้ามพูดแทรกขึ้นมาเรื่องคลิปตลกบนอินเทอร์เน็ตหรือเรื่องชีวิตจริง</div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> เมื่อตัวละครติดสถานะเลือดไหลหรือบาดเจ็บสาหัส คุณต้องพิมพ์หรือโต้ตอบแสดงอาการเจ็บปวดตามบทบาท ห้ามทำเป็นเมินเฉยแล้วเดินฟาร์มต่อเหมือนไม่มีอะไรเกิดขึ้น</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="character-rules">
+            <h2 class="section-title"><i class="fa-solid fa-user-gear"></i> หมวดที่ 2: ข้อบังคับและระเบียบของตัวละคร (Character Rules)</h2>
+            
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">1. กฎการตั้งชื่อตัวละคร (Character Naming Rules)</div>
+                    <span class="rule-badge badge-char">สร้างตัวละคร</span>
+                </div>
+                <div class="rule-description">
+                    ชื่อตัวละครต้องกำหนดเป็นโครงสร้าง "ชื่อ-นามสกุล ภาษาอังกฤษ" (Firstname_Lastname) ที่ดูสมจริงและสอดคล้องกับบริบทภูมิประเทศสหรัฐอเมริกา ห้ามใช้ชื่อแนวตลกล้อเลียน ชื่อบุคคลสำคัญที่มีอยู่จริง ชื่อจากภาพยนตร์/อนิเมะ หรือชื่อกวนประสาทที่ขัดบรรยากาศเซิร์ฟเวอร์
+                </div>
+                <div class="example-box example-box-char">
+                    <div class="example-title example-title-char"><i class="fa-solid fa-address-card"></i> แนวทางการตั้งชื่อตัวละคร</div>
+                    <div class="example-item"><strong class="good">[ถูกกฎ]</strong> Robert_Smith, Elena_Russo, Thomas_Evans</div>
+                    <div class="example-item"><strong>[ผิดกฎ]</strong> John_Wick, Prayut_Chan-o-cha, Inwza_007, Somsri_Eiei</div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">2. การสร้างและปรับแต่งตัวละคร (Character Customization)</div>
+                    <span class="rule-badge badge-char">สร้างตัวละคร</span>
+                </div>
+                <div class="rule-description">
+                    รูปลักษณ์ เสื้อผ้า หน้าตา และทรงผมเริ่มต้นต้องสอดคล้องสมจริงตามปูมหลังอาชีพของตัวละคร ห้ามปรับแต่งโมเดลให้จงใจเกิดข้อผิดพลาดหรือบั๊กทางเทคนิค และหากตัวละครเก่าของคุณเกิดการตายถาวร (Perma-Death) ห้ามสร้างตัวละครใหม่ที่ลอกชื่อ หน้าตา หรือชุดแบบคนเดิมมาสวมรอยเด็ดขาด
+                </div>
+                <div class="example-box example-box-char">
+                    <div class="example-title example-title-char"><i class="fa-solid fa-user-tag"></i> แนวทางการสวมบทบาทสร้างตัวใหม่</div>
+                    <div class="example-item"><strong class="good">[ถูกกฎ]</strong> ตัวละครเก่าตายไป จึงสร้างคนใหม่เป็นผู้หญิงเปลี่ยนชื่อ หน้าตา ทรงผม และชุดเริ่มต้นใหม่ทั้งหมดเพื่อเริ่มเนื้อเรื่องใหม่แกะกล่อง</div>
+                    <div class="example-item"><strong>[ผิดกฎ]</strong> ช่างซ่อมรถคนเก่าตายไป แล้วสร้างตัวละครใหม่รูปลักษณ์เดิม ชื่อเดิม เพื่อเดินกลับมาใช้ชีวิตต่อและคบเพื่อนกลุ่มเดิมทันที</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sensitive-rp">
+            <h2 class="section-title"><i class="fa-solid fa-triangle-exclamation"></i> หมวดที่ 3: กฎเนื้อหาอ่อนไหวและพฤติกรรมไม่เหมาะสม (Prohibited & Sensitive Roleplay)</h2>
+            
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">1. การห้ามโรลเพลย์เนื้อหาทางเพศโดยเด็ดขาด (Strict No Sexual Roleplay)</div>
+                    <span class="rule-badge">แบนถาวร</span>
+                </div>
+                <div class="rule-description">
+                    เซิร์ฟเวอร์ไม่อนุญาตให้มีการโรลเพลย์เชิงชู้สาวขั้นอนาจาร การร่วมเพศ (Erotic Roleplay - ERP) หรือการล่วงละเมิดทางเพศในทุกกรณี (รวมถึงการพิมพ์บรรยายผ่าน /me หรือ /do) หากตัวละครมีความสัมพันธ์กันตามเนื้อเรื่อง ให้ใช้ระบบ Fade to Black (ตัดฉากเข้าสู่ความมืด) เพื่อข้ามเหตุการณ์นั้นทันที
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> ตัวละครสองคนตกลงคบหากันตามเนื้อเรื่อง เดินเข้าบ้านปิดประตู พิมพ์แชท /b ตกลงกันนอกบทบาท จากนั้นพิมพ์คำสั่ง `/me ปิดไฟในห้องนอนและพูดคุยกันจนถึงเช้าวันรุ่งขึ้น`</div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> ห้ามพิมพ์ข้อความอนาจาร บรรยายสัดส่วน หรือพิมพ์กระทำชำเราตัวละครอื่นลงในช่องแชทเกมเด็ดขาด</div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">2. ขอบเขตคำพูดสบประมาทและการเหยียดบุคคล (Offensive Language & Hate Speech)</div>
+                    <span class="rule-badge">ข้อห้าม</span>
+                </div>
+                <div class="rule-description">
+                    ห้ามนำคำด่าทอ ถ้อยคำเหยียดเชื้อชาติ สีผิว เพศสภาพ หรือปมด้อยในชีวิตจริงของผู้เล่นมาใช้พูดหรือพิมพ์ (OOC) เด็ดขาด ความขัดแย้งและคำตะคอกข่มขู่ต้องอยู่ภายใต้เนื้อเรื่องตัวละคร (IC) เท่านั้น
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> กลุ่มโจรพังประตูเข้ามาแล้วพิมพ์ตะโกนว่า "ส่งเสบียงอาหารทั้งหมดมา ไม่งั้นพวกฉันจะเผาค่ายนี้ทิ้งซะ!" <em>(กระทำได้ตามเนื้อเรื่อง)</em></div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> ห้ามพูดออกไมค์ด่าทอฝั่งตรงข้ามโดยลามปามไปถึงลักษณะทางกายภาพที่แท้จริงของผู้เล่น หรือใช้คำสรรพนามเหยียดเพศสภาพนอกเกม</div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">3. จำกัดความรุนแรงและการทารุณกรรม (Torture & Gore Limit)</div>
+                    <span class="rule-badge">ข้อห้าม</span>
+                </div>
+                <div class="rule-description">
+                    การจับตัวประกันมาสืบสวน คุมขัง หรือทรมานเพื่อเค้นข้อมูลตามสตอรี่ สามารถทำได้เท่าที่แอนิเมชันปกติของเกมรองรับ ห้ามใช้คำสั่ง /me หรือ /do บรรยายการชำแหละอวัยวะหรือทารุณกรรมที่พิศดาร วิตถาร หรือซาดิสม์เกินมนุษย์จนสร้างความอึดอัดใจให้ผู้เล่นอื่น
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> พิมพ์คำสั่ง `/me คว้าเชือกมามัดมือตัวประกันไว้กับเก้าอี้ พลางจับจ้องด้วยสายตาดุดันเพื่อคั้นรหัสวิทยุ`</div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> ห้ามพิมพ์บรรยายรายละเอียดขั้นตอนการเชือดเฉือนเนื้อหนัง หรือการทรมานศพอย่างละเอียดละเอียดยิบลงในช่องแชท</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="combat-rules">
+            <h2 class="section-title"><i class="fa-solid fa-gun"></i> หมวดที่ 4: กฎการปะทะ การบุกปล้น และความตาย (Combat & Robbery Rules)</h2>
+            
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">1. กฎห้ามฆ่าเมื่อแรกเห็น (Strict No KoS - No Kill on Sight)</div>
+                    <span class="rule-badge">กฎการปะทะ</span>
+                </div>
+                <div class="rule-description">
+                    ห้ามเปิดฉากยิง โจมตี หรือฆ่าผู้เล่นอื่นทันทีที่เห็นหน้าโดยไม่มีบทสนทนาหรือการเดินเนื้อเรื่องล่วงหน้าเด็ดขาด ทุกการปะทะต้องเริ่มจากการปฏิสัมพันธ์ (เจรจา, ข่มขู่, ยื่นข้อเสนอ) ผ่านทางเสียง (VOIP) หรือแชทในเกมก่อนเสมอ
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> ยืนถือปืนคุมเชิงและตะโกนบอกให้คนแปลกหน้าหยุดเดินและยกมือขึ้นก่อนเข้าใกล้พื้นที่ค่าย <em>(กระทำได้)</em></div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> ใช้ปืนสไนเปอร์ติดลำกล้องแอบซุ่มยิงผู้เล่นที่กำลังวิ่งฟาร์มของอยู่กลางถนนจากระยะไกล โดยไม่มีการพูดคุยหรือส่งสัญญาณข่มขู่ล่วงหน้า <em>(ผิดกฎเด็ดขาด)</em></div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">2. กฎการนับเวลาปะทะ (Engagement & Combat Timer)</div>
+                    <span class="rule-badge">กฎการปะทะ</span>
+                </div>
+                <div class="rule-description">
+                    เมื่อมีการเจรจาที่ตกลงกันไม่ได้และเริ่มเกิดสถานการณ์ตึงเครียด ฝ่ายที่ต้องการเปิดฉากยิงเพื่อสู้รบหรือล่าถอย จะสามารถทำได้ต่อเมื่อมีการส่งสัญญาณเตือนในบทบาทอย่างชัดเจน และห้ามโจมตีในขณะที่อีกฝ่ายกำลังพิมพ์ข้อความโต้ตอบ
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> พิมพ์คำสั่งขู่ว่า "ฉันจะนับ 1 ถึง 3 ถ้าไม่วางอาวุธฉันจะยิง!" เมื่อนับครบเวลาแล้วอีกฝ่ายขัดขืน จึงเปิดฉากยิงสวน <em>(กระทำได้)</em></div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> อาศัยจังหวะที่เห็นอีกฝ่ายยืนนิ่งเพราะเปิดหน้าต่างแชทกำลังพิมพ์ข้อความโต้ตอบ ชักปืนลูกซองออกมายิงหัวทันที <em>(ผิดกฎ)</em></div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">3. กฎการบุกปล้นทรัพย์สินบุคคล (Player Robbery)</div>
+                    <span class="rule-badge">กฎการปล้น</span>
+                </div>
+                <div class="rule-description">
+                    การปล้นตัวบุคคลต้องเกิดขึ้นจากการโรลเพลย์เจรจาหรือข่มขู่ซึ่งหน้า (ห้ามฆ่าก่อนปล้น) ฝ่ายปล้นมีสิทธิ์ยึดเสบียง อาวุธ หรือยารักษาโรคได้สูงสุด <strong>ไม่เกิน 50% ของที่มีติดตัว</strong> เพื่อให้ผู้ถูกปล้นยังมีโอกาสรอดชีวิตไปเดินเนื้อเรื่องต่อได้
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> ฝ่ายโจรเอาปืนจ่อชายพเนจรแล้วพิมพ์ขู่ สั่งให้โยนอาหารกระป๋องและกระสุนปืนออกมาครึ่งหนึ่งจากกระเป๋าเป้ <em>(กระทำได้)</em></div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> ยิงผู้เล่นอื่นจนสลบหรือตายทันทีโดยไม่พูดพร่ำทำเพลงเพื่อเดินไปรูทของเกลี้ยงตัว <em>(ผิดกฎเด็ดขาด)</em></div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">4. กฎการบุกปล้นบ้านและฐานที่มั่น (Base Raiding)</div>
+                    <span class="rule-badge">กฎการปล้น</span>
+                </div>
+                <div class="rule-description">
+                    ห้ามแอบไปพังบ้านคนอื่นตอนที่เจ้าของบ้านออฟไลน์ (<strong>No Offline Raid</strong>) การจะบุกปล้นสิ่งปลูกสร้างหรือค่ายของกลุ่มอื่น จะทำได้ต่อเมื่อมีสมาชิกหรือเจ้าของบ้านกลุ่มนั้นออนไลน์อยู่ในเซิฟเวอร์อย่างน้อย 2-3 คน และการปล้นค่ายต้องเหลือเสบียงก้นตู้และรถยนต์ไว้อย่างน้อย 1 คัน ห้าม Wipe บ้านจนเกลี้ยง
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> เห็นสมาชิกค่ายฝั่งตรงข้ามกำลังเปิดไฟเฝ้ารั้วบ้านในเกม จึงทำการพิมพ์คำสั่งส่งสัญญาณบุกจู่โจมเพื่อพังประตูเข้าไปปล้นเสบียงคลังกลาง <em>(กระทำได้)</em></div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> แอบใช้ขวานจามทำลายประตูกระท่อมของผู้เล่นอื่นตอนตี 3 ในขณะที่เจ้าของบ้านปิดคอมพิวเตอร์นอนหลับไปแล้ว <em>(ผิดกฎ)</em></div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">5. กฎการปล้นและขโมยยานพาหนะ (Vehicle Theft)</div>
+                    <span class="rule-badge">กฎการปล้น</span>
+                </div>
+                <div class="rule-description">
+                    การจะดักปล้นรถที่กำลังมีคนขับอยู่ต้องทำการข่มขู่ให้รถจอดก่อน หรือหากเป็นรถที่จอดทิ้งไว้ในพื้นที่เปิดสามารถสะเดาะกลอนหรือต่อสายตรง (Hotwire) ขโมยได้ตามกลไกเกม แต่ห้ามตามไปขโมยรถที่จอดอยู่ด้านในรั้วเซฟโซนหลักของกลุ่มอื่น
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> เจอรถเก๋งจอดทิ้งไว้หน้าร้านชำที่ไม่มีคนเฝ้า จึงใช้ทักษะช่างกล่องต่อสายตรงและขับรถหนีไป <em>(กระทำได้)</em></div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> แอบปีนรั้วค่ายหลักของกลุ่มอื่นเข้าไปสตาร์ทรถที่จอดอยู่ใจกลางฐานทัพในเขตปลอดภัย <em>(ผิดกฎ)</em></div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">6. การจงใจฆ่าผู้อื่นโดยไร้เหตุผลรองรับ (Deathmatching - DM)</div>
+                    <span class="rule-badge">ข้อห้ามร้ายแรง</span>
+                </div>
+                <div class="rule-description">
+                    ห้ามเปิดฉากโจมตี ทำร้าย หรือฆ่าผู้เล่นอื่นโดยไม่มีปมขัดแย้งทางเนื้อเรื่อง (IC Reason) รองรับเด็ดขาด ทุกการลั่นไกสังหารต้องมีบทสนทนา มีการเจรจา หรือมีคำสั่งจากกลุ่มอำนาจชี้ชัด ห้ามเล่นเป็นฆาตกรต่อเนื่องที่ไล่ฆ่าคนเพื่อความสนุกนอกบทบาท
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> ตรวจพบว่าชายพเนจรลักลอบขนอาวุธเถื่อนเข้ามาในเขตควบคุม และขัดขืนการจับกุม จึงทำการวิทยุแจ้งศูนย์และลั่นไกวิสามัญตามบทบาท <em>(กระทำได้)</em></div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> ขับรถไปเจอคนกำลังยืนเติมน้ำมันอยู่ริมทาง เกิดหมั่นไส้เลยชักปืนลูกซองเป่าหัวเขาทันทีโดยไม่มีการพูดคุยหรือมีสตอรี่โกรธแค้นกันมาก่อน <em>(ผิดกฎร้ายแรง)</em></div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">7. การใช้ยานพาหนะสร้างความเสียหาย (Drive By / VDM)</div>
+                    <span class="rule-badge">ข้อห้าม</span>
+                </div>
+                <div class="rule-description">
+                    ห้ามใช้รถยนต์หรือยานพาหนะทุกชนิดเป็นอาวุธหลักในการพุ่งชนผู้เล่นอื่น (Vehicle Deathmatch) เพื่อหวังให้เขาบาดเจ็บหรือตายโดยเจตนา และห้ามขับรถโฉบยิงแบบไร้การโรลเพลย์เจรจาก่อนหน้า
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> เกิดการยิงปะทะกันกลางถนน ฝ่ายตรงข้ามวิ่งมาตัดหน้ารถในระยะกระชั้นชิดจนเบรกไม่ทัน หรือขับรถชนเพื่อเปิดทางหนีออกจากวงล้อม <em>(กระทำได้ตามสถานการณ์หน้าสิ่วหน้าขวาน)</em></div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> เห็นศัตรูเดินอยู่บนฟุตบาทตัวเปล่า จึงจงใจหักพวงมาลัยรถพุ่งชนอัดกำแพงเต็มแรงเพื่อให้ระบบเกมขึ้นสถานะกระดูกหัก/ตายทันที <em>(ผิดกฎเด็ดขาด)</em></div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">8. กฎการฆ่าและการทำร้ายในบทบาท (Player Killing - PK)</div>
+                    <span class="rule-badge">ความตาย</span>
+                </div>
+                <div class="rule-description">
+                    เมื่อการเจรจาล้มเหลวและเกิดการยิงกันจนฝ่ายหนึ่งเสียชีวิตในระบบเกม ฝ่ายที่ตายจะถือว่าเป็นการ PK (Player Kill) คือตัวละครแค่ได้รับบาดเจ็บสาหัสจนหมดสติและลืมความทรงจำในฉากปะทะนั้นไป (<strong>Memory Wipe</strong>) เมื่อสปอว์นกลับมา ห้ามจำหน้าหรือกลับมาล้างแค้นคนที่ยิงตนเองในฉากนั้นทันที
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> โดนกลุ่มโจรยิงตายกลางถนน สปอว์นกลับมาที่เตียงนอนในค่าย จำไม่ได้ว่าใครยิงและยิงที่ไหน จึงใช้ชีวิตฟาร์มผักต่อไปตามปกติ <em>(กระทำได้)</em></div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> ตายแล้วเกิดใหม่ รีบหยิบปืนสำรองขับรถกลับมายังพิกัดเดิมที่เพิ่งตายเพื่อดักยิงหัวโจรแก้แค้น <em>(ผิดกฎร้ายแรง)</em></div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">9. กฎสิทธิ์ขาดการตายถาวร (Character Kill - CK)</div>
+                    <span class="rule-badge">ความตายขั้นสุด</span>
+                </div>
+                <div class="rule-description">
+                    <strong>ระบบ CK ของเซิฟเวอร์นี้ขึ้นอยู่กับความสมัครใจของผู้เล่นเจ้าของตัวละคร 100%</strong> กลุ่มอำนาจอื่นหรือผู้เล่นคนอื่นไม่มีสิทธิ์มาสั่งประหารชีวิต บีบบังคับ หรือเขียนสตอรี่ให้ตัวละครของคุณตายถาวรโดยที่คุณไม่ยินยอม หากคุณปฏิเสธ ตัวละครของคุณจะถือสถานะเป็นแค่การสลบ/บาดเจ็บปางตาย (PK) และล้างความทรงจำในฉากนั้นแทน
+                </div>
+                <div class="example-box">
+                    <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ตัวอย่างที่ 1]</strong> ตัวละครโดนจับได้และถูกพิพากษาประหารชีวิตเนื่องจากฝ่าฝืนกฎอัยการศึก ผู้เล่นรู้สึกอินกับบทบาทและอยากจบบทบาทเท่ๆ จึงพิมพ์บอก OOC ว่า "ผมยินยอมรับเนื้อเรื่อง CK ครับ" จากนั้นลบตัวละครเพื่อสร้างคนใหม่ <em>(กระทำได้)</em></div>
+                    <div class="example-item"><strong>[ตัวอย่างที่ 2]</strong> โดนกลุ่มโจรจับไปตัดหัวเพื่อประกาศศัตรู แต่ผู้เล่นยังอยากเล่นตัวนี้ต่อ จึงพิมพ์บอก OOC ว่า "ฉากนี้ผมขอรับเป็นแค่สถานะ PK บาดเจ็บปางตายนะครับ" เมื่อระบบเกมตาย ตัวละครสปอว์นกลับมาจะถือว่ารอดชีวิตจากการโดนซ้อมปางตายแต่สูญเสียความทรงจำช่วงถูกจับไป</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="system-commands">
+            <h2 class="section-title"><i class="fa-solid fa-terminal"></i> หมวดที่ 5: หมวดคำสั่งระบบสากลประจำเซิร์ฟเวอร์ (/me, /do, /roll)</h2>
+            
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">คำสั่ง /me (คำสั่งแสดงท่าทางและการกระทำ)</div>
+                    <span class="rule-badge badge-system">Roleplay Interface</span>
+                </div>
+                <div class="rule-description">
+                    ใช้พิมพ์เพื่ออธิบาย <strong>"ท่าทาง การกระทำ ความรู้สึก หรืออารมณ์"</strong> ของตัวละครที่ระบบแอนิเมชันปกติของเกมไม่มีรองรับ โดยมีระเบียบสำคัญคือ <strong>ห้ามพิมพ์ผูกขาดตัดสินผลลัพธ์สำเร็จรูปฝั่งเดียว (Powergaming)</strong> ให้ระบุเป็นเพียงเจตนาหรือความพยายามที่จะกระทำ เพื่อเปิดช่องให้อีกฝ่ายมีสิทธิ์โต้ตอบเชิงกลไกหรือใช้คำสั่งระบบถัดไป
+                </div>
+                <div class="example-box example-box-system">
+                    <div class="example-title example-title-system"><i class="fa-solid fa-code"></i> รูปแบบและตัวอย่างแชทระบบ</div>
+                    <div class="example-item"><code>/me ค่อยๆ เอื้อมมือเปิดกระเป๋าเป้สะพายหลัง หยิบขวดน้ำส่งให้ชายพเนจรข้างๆ</code></div>
+                    <div class="example-item"><code>/me เอื้อมมือทั้งสองข้างพุ่งไปคว้าที่ปกเสื้อของศัตรูตรงหน้าเต็มแรง หวังกระชากให้ล้มลง</code> <em>(ระบุเป็นความพยายามเพื่อให้เกิดการโต้ตอบต่อ)</em></div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">คำสั่ง /do (คำสั่งแจ้งสถานะและสอบถามข้อเท็จจริง)</div>
+                    <span class="rule-badge badge-system">Fact & Environment</span>
+                </div>
+                <div class="rule-description">
+                    ใช้พิมพ์เพื่ออธิบาย <strong>"ข้อเท็จจริงของสิ่งแวดล้อม รูปลักษณ์ภายนอก หรือใช้ส่งคำถามเพื่อเช็กสถานะความจริง"</strong> จากตัวละครอื่น โดยมีกฎเหล็กที่สำคัญที่สุดคือ <strong>ผู้เล่นห้ามโกหกผ่านคำสั่ง /do โดยเด็ดขาด</strong> ข้อมูลในกระเป๋า ไอเทมที่มีอยู่จริง หรือสถานะร่างกายขณะนั้นเป็นอย่างไร ต้องตอบตามความจริง 100%
+                </div>
+                <div class="example-box example-box-system">
+                    <div class="example-title example-title-system"><i class="fa-solid fa-code"></i> รูปแบบและตัวอย่างแชทระบบ</div>
+                    <div class="example-item"><code>/do มีกลิ่นน้ำมันเบนซินรั่วไหลอบอวลออกมาจากใต้ท้องรถยนต์คันที่พัง</code> <em>(แจ้งสิ่งแวดล้อม)</em></div>
+                    <div class="example-item">ผู้เล่น A: <code>/do จะพบอาวุธปืนหรือสิ่งผิดกฎหมายใดๆ ในกระเป๋าเสื้อของนายหลังการค้นหรือไม่?</code></div>
+                    <div class="example-item">ผู้เล่น B: <code>/do พบมีดพก 1 เล่ม และไฟแช็ก 1 อัน</code> <em>(ตอบตามความจริงที่มีไอเทมในตัวเกมขณะนั้น)</em></div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">คำสั่ง /roll (คำสั่งสุ่มแต้มตัดสินผลลัพธ์)</div>
+                    <span class="rule-badge badge-system">Server Mechanics</span>
+                </div>
+                <div class="rule-description">
+                    ใช้พิมพ์เพื่อส่งกลไกการ <strong>"ทอยลูกเต๋าสุ่มตัวเลข"</strong> ในการตัดสินผลลัพธ์การกระทำที่ผู้เล่นสองฝ่ายมีความขัดแย้งกันและไม่สามารถหาข้อสรุปในบทบาทได้ (เช่น การแย่งปืน, การสะเดาะกลอนประตู, การยื้อยุดฉุดกระชาก) 
+                    <br><br>
+                    <strong style="color: var(--accent-red);"><i class="fa-solid fa-triangle-exclamation"></i> บังคับใช้และข้อกำหนดของเซิร์ฟเวอร์:</strong><br>
+                    เซิร์ฟเวอร์นี้กำหนดให้ใช้รูปแบบคำสั่ง **` /roll d10 ` เท่านั้น!** โดยระบบจะทำการสุ่มตัวเลขจำนวน 1 ลูก ตั้งแต่ **1 ถึง 10** (ห้ามทอยลูกเต๋าหน้าอื่น หรือระบุจำนวนลูกเต๋าหลายลูกโดยเด็ดขาด)
+                </div>
+                <div class="example-box example-box-system">
+                    <div class="example-title example-title-system"><i class="fa-solid fa-dice"></i> รูปแบบคำสั่งประจำเซิร์ฟเวอร์</div>
+                    <div class="example-item"><code>/roll d10</code> : สุ่มแต้มลูกเต๋า 10 หน้า จำนวน 1 ลูก (ผลลัพธ์ที่ได้จะเป็นตัวเลข 1 ถึง 10 เท่านั้น)</div>
+                    
+                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #444;">
+                        <span style="color:#8bc6ec; font-size:0.85rem; font-weight:bold; display:block; margin-bottom:5px;">🎬 ตัวอย่างสถานการณ์ปะทะหน้างานจริงตามระบบเต๋า d10 (ยื้อแย่งอาวุธ):</span>
+                        <div class="example-item">ผู้เล่น A: <code>/me พุ่งตัวเข้าประชิด พยายามเอื้อมมือไปคว้าจับข้อมือของโจรเพื่อหักแย่งมีดพกออกมา</code></div>
+                        <div class="example-item">ผู้เล่น B: <code>/me ใช้แรงทั้งหมดขืนข้อมือเอาไว้ ไม่ยอมปล่อยให้แย่งมีดไปได้ง่ายๆ</code></div>
+                        <div class="example-item">ผู้เล่น A: <code>/roll d10</code> <em style="color:var(--text-muted);">(ระบบสุ่มได้แต้ม: 9)</em></div>
+                        <div class="example-item">ผู้เล่น B: <code>/roll d10</code> <em style="color:var(--text-muted);">(ระบบสุ่มได้แต้ม: 4)</em></div>
+                        <div class="example-item">ผู้เล่น A: <code>/do แต้มของฉันชนะ นายสูญเสียการควบคุม มีดพกหลุดออกจากมือลงพื้น</code> <em>(สวมบทบาทดำเนินฉากต่อตามแต้มเต๋าที่ชนะจริง)</em></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="discord-rules">
+            <h2 class="section-title"><i class="fa-brands fa-discord"></i> หมวดที่ 6: ข้อตกลงและกฎระเบียบประจำ Discord</h2>
+            
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">01 | การเคารพซึ่งกันและกัน</div>
+                    <span class="rule-badge badge-discord">Community</span>
+                </div>
+                <div class="rule-description">
+                    ห้ามโพสต์ข้อความโจมตี ดูถูก เสียดสี หรือสร้างความอับอายให้แก่สมาชิกท่านอื่นในพื้นที่สาธารณะเด็ดขาด โปรดรักษาบรรยากาศที่ดีและให้เกียรติเพื่อนร่วมเซิร์ฟเวอร์
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">02 | การปกป้องข้อมูลส่วนบุคคล (PDPA)</div>
+                    <span class="rule-badge badge-discord">Privacy</span>
+                </div>
+                <div class="rule-description">
+                    ห้ามนำข้อมูลส่วนตัวของผู้อื่น (เช่น ชื่อจริง, เบอร์โทรศัพท์, ที่อยู่, รูปภาพจริง หรือช่องทางติดต่อส่วนตัว) มาเผยแพร่โดยไม่ได้รับอนุญาตอย่างเด็ดขาด ไม่ว่าจะเป็นบุคคลในหรือนอกดิสคอร์ดนี้ก็ตาม
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">03 | พื้นที่ปลอดภัยไร้สิ่งอนาจาร</div>
+                    <span class="rule-badge badge-discord">Safety</span>
+                </div>
+                <div class="rule-description">
+                    ไม่อนุญาตให้ลงสื่อสิ่งพิมพ์ ภาพถ่าย หรือเนื้อหาใดๆ ที่เข้าข่ายลามกอนาจาร ความรุนแรง (Gore) หรือเนื้อหาเรท NSFW ทุกประเภท
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">04 | งดการก่อความรำคาญ (Spam)</div>
+                    <span class="rule-badge badge-discord">Community</span>
+                </div>
+                <div class="rule-description">
+                    ห้ามสแปมข้อความ รูปภาพ อีโมจิ รวมถึงห้ามแท็กส่งเดช (@) สร้างความรำคาญใจให้แก่ผู้อื่น
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">05 | งดสร้างพลังลบและความรุนแรง</div>
+                    <span class="rule-badge badge-discord">Safety</span>
+                </div>
+                <div class="rule-description">
+                    ห้ามใช้คำพูด วาจา หรือข้อความใดๆ ที่มีเจตนาข่มขู่ คุกคาม หรือดิสเครดิตที่ทำให้ผู้อื่นเกิดความเสียหาย
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">06 | ห้ามแอบอ้างตัวตน</div>
+                    <span class="rule-badge badge-discord">Privacy</span>
+                </div>
+                <div class="rule-description">
+                    ห้ามปลอมแปลงโปรไฟล์ สวมรอย หรือแอบอ้างเป็นบุคคลอื่น ไม่ว่าจะเป็นการกระทำภายในหรือภายนอกดิสคอร์ด
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">07 | ประเด็นละเอียดอ่อน</div>
+                    <span class="rule-badge badge-discord">Sensitive</span>
+                </div>
+                <div class="rule-description">
+                    เพื่อป้องกันความขัดแย้ง ไม่อนุญาตให้เปิดประเด็น ล้อเลียน หรือถกเถียงเกี่ยวกับเรื่อง การเมือง, ศาสนา และสถาบันพระมหากษัตริย์ ในพื้นที่ส่วนรวม หากต้องการพูดคุยกรุณาใช้พื้นที่ส่วนตัว (DM) เท่านั้น
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">08 | การตั้งชื่อ (Nickname)</div>
+                    <span class="rule-badge badge-discord">Identity</span>
+                </div>
+                <div class="rule-description">
+                    สมาชิกทุกคนต้องเปลี่ยนชื่อในดิสคอร์ดให้ตรงกับ "ชื่อตัวละครในเซิร์ฟเวอร์" เท่านั้น (ยกเว้นเฉพาะทีมงาน Admin)
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">09 | ช่องทางติดต่อทีมงาน</div>
+                    <span class="rule-badge badge-discord">Support</span>
+                </div>
+                <div class="rule-description">
+                    หากพบปัญหา มีข้อสงสัย หรือต้องการความช่วยเหลือ กรุณาเปิดระบบ Ticket เพื่อคุยกับเจ้าหน้าที่โดยตรง
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">10 | ความปลอดภัยทางไซเบอร์</div>
+                    <span class="rule-badge badge-discord">Security</span>
+                </div>
+                <div class="rule-description">
+                    ห้ามส่งต่อไฟล์อันตราย ลิงก์ฟิชชิ่ง ไวรัส หรือโปรแกรมโกงใดๆ ที่ส่งผลกระทบต่อระบบและความปลอดภัยของสมาชิก
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">11 | กฎเหล็กเรื่องการโฆษณา</div>
+                    <span class="rule-badge badge-discord">Advertising</span>
+                </div>
+                <div class="rule-description">
+                    ไม่อนุญาตให้ทำการประชาสัมพันธ์ โปรโมทลิงก์ หรือดึงคนเข้ากลุ่ม/เซิร์ฟเวอร์อื่นๆ ที่ไม่เกี่ยวข้องกับ KNOX FALL (สามารถเอ่ยชื่อเพื่อพูดคุยได้ แต่ห้ามเจตนาชวนคนหรือรับสมาชิกเด็ดขาด)
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">12 | บทลงโทษ</div>
+                    <span class="rule-badge badge-discord" style="background:#d63031;">Penalty</span>
+                </div>
+                <div class="rule-description">
+                    การฝ่าฝืนกฎระเบียบข้างต้น จะถูกพิจารณาลงโทษตามความเหมาะสม ตั้งแต่การตักเตือน, เตะออกจากกลุ่ม (Kick) ไปจนถึงการแบนถาวร (Ban) โดยขึ้นอยู่กับดุลยพินิจของทีมงาน
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // --- Mobile Menu Toggle Mechanics ---
+        const menuToggleBtn = document.getElementById('menuToggleBtn');
+        const serverSidebar = document.getElementById('serverSidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+
+        function toggleMobileMenu() {
+            serverSidebar.classList.toggle('open');
+            sidebarOverlay.style.display = serverSidebar.classList.contains('open') ? 'block' : 'none';
+        }
+
+        function closeMobileMenu() {
+            serverSidebar.classList.remove('open');
+            sidebarOverlay.style.display = 'none';
+        }
+
+        menuToggleBtn.addEventListener('click', toggleMobileMenu);
+        sidebarOverlay.addEventListener('click', closeMobileMenu);
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if(window.innerWidth <= 992) {
+                    closeMobileMenu();
+                }
+            });
+        });
+
+        // --- Real-time Search Logic ---
+        const searchInput = document.getElementById('ruleSearch');
+        const ruleCards = document.querySelectorAll('.rule-card');
+
+        searchInput.addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase().trim();
+
+            ruleCards.forEach(card => {
+                const title = card.querySelector('.rule-title').textContent.toLowerCase();
+                const desc = card.querySelector('.rule-description').textContent.toLowerCase();
+                
+                if (title.includes(query) || desc.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // --- Sidebar Active Navigation Highlighter ---
+        const menuLinks = document.querySelectorAll('.sidebar-menu a');
+        const sections = document.querySelectorAll('section');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            menuLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
