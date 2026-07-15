@@ -321,6 +321,7 @@
         .badge-char { background: #6f1daf; border: 1px solid #9c4ddb; }
         .badge-system { background: #2b5181; border: 1px solid #4a7bb0; }
         .badge-discord { background: #5865F2; border: 1px solid #7289da; }
+        .badge-base { background: #d35400; border: 1px solid #e67e22; }
 
         .rule-description {
             color: var(--text-main);
@@ -339,6 +340,7 @@
 
         .example-box-char { border-left-color: #9c4ddb; }
         .example-box-system { border-left-color: #4a7bb0; }
+        .example-box-base { border-left-color: #e67e22; }
 
         .example-title {
             font-size: 0.9rem;
@@ -352,6 +354,7 @@
 
         .example-title-char { color: #d4a5ff; }
         .example-title-system { color: #8bc6ec; }
+        .example-title-base { color: #f39c12; }
 
         .example-item {
             font-size: 0.95rem;
@@ -417,6 +420,7 @@
 
     <nav class="sidebar" id="serverSidebar">
         <div class="sidebar-header">
+            <img class="sidebar-logo" src="logo.png" alt="KNOX FALL LOGO" onerror="this.style.display='none'">
             <h1>KNOX FALL</h1>
             <p>Hardcore Roleplay Rules Wiki</p>
         </div>
@@ -425,6 +429,7 @@
             <li><a href="#character-rules"><i class="fa-solid fa-user-gear"></i> ข้อบังคับตัวละคร (Character)</a></li>
             <li><a href="#sensitive-rp"><i class="fa-solid fa-triangle-exclamation"></i> เนื้อหาอ่อนไหว (Sensitive)</a></li>
             <li><a href="#combat-rules"><i class="fa-solid fa-gun"></i> การปะทะ & ปล้น (Combat)</a></li>
+            <li><a href="#base-rules"><i class="fa-solid fa-house-chimney-crack"></i> กฎสร้างบ้าน/เซฟเฮาส์ (Safehouse/Base)</a></li>
             <li><a href="#system-commands"><i class="fa-solid fa-terminal"></i> ระบบคำสั่งสากล (/me /do /roll)</a></li>
             <li><a href="#discord-rules"><i class="fa-brands fa-discord"></i> กฎระเบียบ Discord</a></li>
         </ul>
@@ -439,7 +444,7 @@
         <div class="top-bar">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="ruleSearch" placeholder="พิมพ์ค้นหากฎ เช่น 'ปล้น', 'd10', 'OOC', 'ชื่อตัวละคร'...">
+                <input type="text" id="ruleSearch" placeholder="พิมพ์ค้นหากฎ เช่น 'ปล้น', 'd10', 'เซฟเฮาส์', 'High loot'...">
             </div>
         </div>
 
@@ -573,7 +578,7 @@
 
             <div class="rule-card">
                 <div class="rule-header">
-                    <div class="rule-title">11. การทำลายบทบาทและการเล่นแข็ง (Breaking Roleplay - BR)</div>
+                    <div class="rule-title">9. การทำลายบทบาทและการเล่นแข็ง (Breaking Roleplay - BR)</div>
                     <span class="rule-badge">ข้อห้าม</span>
                 </div>
                 <div class="rule-description">
@@ -694,7 +699,7 @@
                     <span class="rule-badge">กฎการปะทะ</span>
                 </div>
                 <div class="rule-description">
-                    เมื่อมีการเจรจาที่ตกลงกันไม่ได้และเริ่มเกิดสถานการณ์ตึงเครียด ฝ่ายที่ต้องการเปิดฉากยิงเพื่อสู้รบหรือล่าถอย จะสามารถทำได้ต่อเมื่อมีการส่งสัญญาณเตือนในบทบาทอย่างชัดเจน และห้ามโจมตีในขณะที่อีกฝ่ายกำลังพิมพ์ข้อความโต้ตอบ
+                    เมื่อมีการเจรจาที่ตกลงกันไม่ได้และเริ่มเกิดสถานการณ์ตึงเครียด ฝ่ายที่ต้องการเปิดฉากยิงเพื่อสู้รบหรือล่าถอย จะสามารถทำได้ต่อเมื่อมีการส่งสัญญาณเตือน in-character อย่างชัดเจน และห้ามโจมตีในขณะที่อีกฝ่ายกำลังพิมพ์ข้อความโต้ตอบ
                 </div>
                 <div class="example-box">
                     <div class="example-title"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
@@ -809,8 +814,46 @@
             </div>
         </section>
 
+        <section id="base-rules">
+            <h2 class="section-title"><i class="fa-solid fa-house-chimney-crack"></i> หมวดที่ 5: ข้อบังคับการสร้างและเคลมพื้นที่เซฟเฮาส์ (Safehouse & Base Rules)</h2>
+            
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">1. จำกัดสิทธิ์การครอบครองที่อยู่อาศัย</div>
+                    <span class="rule-badge badge-base">ข้อกำหนดสิทธิ์</span>
+                </div>
+                <div class="rule-description">
+                    ผู้เล่นหรือกลุ่มผู้รอดชีวิต (Crew/Group/Faction) มีสิทธิ์ในการกดใช้ระบบกลไกเกมเคลมเซฟเฮาส์ หรือสร้างสิ่งปลูกสร้างเป็นฐานที่มั่นหลัก (Main Base) ได้ **สูงสุดเพียง 1 หลัง/1 สถานที่** เท่านั้น ตลอดการดำเนินเนื้อเรื่องสตอรี่ของตัวละคร เพื่อไม่ให้เกิดการผูกขาดครอบครองอสังหาริมทรัพย์ในเซิร์ฟเวอร์
+                </div>
+                <div class="example-box example-box-base">
+                    <div class="example-title example-title-base"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ถูกกฎ]</strong> กลุ่มผู้รอดชีวิตขับรถสำรวจและตัดสินใจยึดบ้านพักชานเมืองที่ห่างไกลทำเป็นค่ายหลักเพียงแห่งเดียวและสร้างรั้วป้องกันภายนอก</div>
+                    <div class="example-item"><strong>[ผิดกฎ]</strong> สมาชิก Faction เดียวกันแยกย้ายกันไปกดเคลมบ้านในเมืองคนละหลังรวมเป็น 5 หลัง เพื่อกักตุนพื้นที่และกล่องเก็บของส่วนตัว</div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-title">2. ข้อห้ามเด็ดขาดในพื้นที่ทรัพยากรหนาแน่น (High Loot Area)</div>
+                    <span class="rule-badge badge-base">ข้อห้ามร้ายแรง</span>
+                </div>
+                <div class="rule-description">
+                    ไม่อนุญาตให้ผู้เล่นทำการสร้างสิ่งปลูกสร้างปิดกั้นทางเข้า-ออก หรือกดระบบเคลมเซฟเฮาส์ในอาคารที่เป็น **แหล่งทรัพยากรหนาแน่น (High Loot)** หรือจุดยุทธศาสตร์ส่วนรวมของเซิร์ฟเวอร์โดยเด็ดขาด เพื่อเปิดโอกาสให้ผู้เล่นทุกคนสามารถกระจายตัวเข้าฟาร์มหาเสบียงได้อย่างเท่าเทียมกัน
+                    <br><br>
+                    <strong>🚫 รายชื่อพื้นที่ High Loot และจุดยุทธศาสตร์ส่วนรวม:</strong> สถานีตำรวจ, คลังแสงทหาร, โรงพยาบาล/สถานพยาบาลหลัก, ปั๊มน้ำมัน, ร้านขายปืน, ห้างสรรพสินค้า (Giga Mart / Mall), สถานีดับเพลิง และโรงงานอุตสาหกรรมขนาดใหญ่
+                    <br><br>
+                    <strong style="color: var(--accent-red);"><i class="fa-solid fa-triangle-exclamation"></i> ข้อยกเว้นพิเศษ:</strong> ยกเว้นบาง Faction/กลุ่มอำนาจ ที่ทางแอดมินเซิร์ฟเวอร์ได้พิจารณาอนุญาตให้จัดตั้งฐานในจุดยุทธศาสตร์เป็นกรณีพิเศษเพื่อขับเคลื่อนเนื้อเรื่องหลัก (Story Faction) เท่านั้น
+                </div>
+                <div class="example-box example-box-base">
+                    <div class="example-title example-title-base"><i class="fa-solid fa-circle-info"></i> แนวทางการเล่น</div>
+                    <div class="example-item"><strong class="good">[ถูกกฎ]</strong> ยึดอาคารโกดังร้างขนาดเล็กแถบชนบทลึกที่ไม่มีจุดเกิดของไอเทมประเภทอาวุธเถื่อนหรือเครื่องมือแพทย์ระดับสูงเพื่อทำเป็นฐาน</div>
+                    <div class="example-item"><strong>[ผิดกฎ]</strong> การสร้างรั้วไม้ปิดตายล้อมรอบปั๊มน้ำมันกลางเมืองเพื่อผูกขาดน้ำมันไว้ใช้ส่วนตัว หรือแอบกดเคลมตัวอาคารร้านขายปืนในเมืองใหญ่</div>
+                </div>
+            </div>
+        </section>
+
         <section id="system-commands">
-            <h2 class="section-title"><i class="fa-solid fa-terminal"></i> หมวดที่ 5: หมวดคำสั่งระบบสากลประจำเซิร์ฟเวอร์ (/me, /do, /roll)</h2>
+            <h2 class="section-title"><i class="fa-solid fa-terminal"></i> หมวดที่ 6: หมวดคำสั่งระบบสากลประจำเซิร์ฟเวอร์ (/me, /do, /roll)</h2>
             
             <div class="rule-card">
                 <div class="rule-header">
@@ -871,7 +914,7 @@
         </section>
 
         <section id="discord-rules">
-            <h2 class="section-title"><i class="fa-brands fa-discord"></i> หมวดที่ 6: ข้อตกลงและกฎระเบียบประจำ Discord</h2>
+            <h2 class="section-title"><i class="fa-brands fa-discord"></i> หมวดที่ 7: ข้อตกลงและกฎระเบียบประจำ Discord</h2>
             
             <div class="rule-card">
                 <div class="rule-header">
